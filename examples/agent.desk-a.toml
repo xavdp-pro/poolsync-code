@@ -1,0 +1,34 @@
+# Fictitious new-pool template. Resolve credentials and paths privately.
+node = "desk-a"
+hubless = true
+hub_url = "ws://127.0.0.1:1/ws"
+token = "MIGRATION_DISABLED"
+node_token = "REPLACE_DESK_A_TOKEN"
+e2e_key = "REPLACE_BASE64_32_BYTE_KEY"
+mode = "full"
+kvm_enabled = true
+kvm_capture = true
+pause_clipboard_when_rdp = true
+peer_listen_port = 9472
+peer_direct_clipboard = true
+hub_clipboard = false
+peer_tls_cert = "/home/USER/.config/poolsync/tls/desk-a.crt"
+peer_tls_key = "/home/USER/.config/poolsync/tls/desk-a.key"
+
+[peer_tokens]
+desk-b = "REPLACE_DESK_B_TOKEN"
+work-a = "REPLACE_WORK_A_TOKEN"
+
+[screen]
+width = 1920
+height = 1080
+
+[[neighbors]]
+node = "desk-b"
+direction = "right"
+peer_url = "wss://desk-b.example:9472/ws"
+
+[[neighbors]]
+node = "work-a"
+direction = "down"
+peer_url = "wss://work-a.example:9472/ws"

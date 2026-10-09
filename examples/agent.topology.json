@@ -1,0 +1,29 @@
+{
+  "revision": 1,
+  "origin": "desk-a",
+  "topology": {
+    "nodes": {
+      "desk-a": {
+        "x": 0,
+        "y": 0,
+        "width": 1920,
+        "height": 1080,
+        "kvm_enabled": true
+      },
+      "desk-b": {
+        "x": 1920,
+        "y": 0,
+        "width": 1920,
+        "height": 1080,
+        "kvm_enabled": true
+      },
+      "work-a": {
+        "x": 0,
+        "y": 1080,
+        "width": 1920,
+        "height": 1080,
+        "kvm_enabled": false
+      }
+    }
+  }
+}

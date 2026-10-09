@@ -1,0 +1,13 @@
+[package]
+name = "poolsync-core"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+base64 = "0.22"
+chacha20poly1305 = "0.10"
+rand_core = { version = "0.6", features = ["getrandom"] }

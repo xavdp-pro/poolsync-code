@@ -1,0 +1,14 @@
+[Unit]
+Description=PoolSync agent (clipboard + KVM)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/poolsync-agent-launch.sh --config %h/.config/poolsync/agent.toml
+Restart=on-failure
+RestartSec=5
+Environment=XDG_CURRENT_DESKTOP=XFCE
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,14 @@
+/target/
+.env
+*.local.toml
+*.key
+*.pem
+security/
+node-tokens.json
+web/node_modules/
+web/dist/
+web/.preview/
+__pycache__/
+.idea/
+.vscode/
+.DS_Store
