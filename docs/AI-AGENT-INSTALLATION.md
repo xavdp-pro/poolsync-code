@@ -100,6 +100,17 @@ The single-node `deploy/apply-agent-hotfix.py` requires an explicit `--user`,
 candidate/current hashes and unique backup ID; it is not a fleet coordinator.
 An interrupted or mixed cohort must remain absent until inspected and restored.
 
+## Desktop tray integration
+
+The agent currently uses a GTK StatusIcon (legacy XEmbed), not a modern
+StatusNotifier icon. On XFCE, check that the intended panel includes a Status
+Tray plugin with legacy icons enabled. An indicator-only panel can leave the
+agent running and connected with no visible PoolSync icon. Preserve existing
+panel contents and back up its configuration before adding a missing tray.
+After adding the tray, restart the same qualified user agent if its icon does
+not reattach. Verify the icon is mapped inside the panel and that the service,
+identity, configuration and layout remain correct.
+
 ## Verification
 
 Check the actual process executable and hash, intended graphical display,
