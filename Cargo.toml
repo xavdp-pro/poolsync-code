@@ -3,7 +3,7 @@ resolver = "2"
 members = ["poolsync-core", "poolsync-hub", "poolsync-agent"]
 
 [workspace.package]
-version = "2.1.0-dev.11"
+version = "2.1.0-dev.12"
 edition = "2021"
 license = "MIT"
 

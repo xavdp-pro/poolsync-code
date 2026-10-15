@@ -1674,7 +1674,7 @@ dependencies = [
 
 [[package]]
 name = "poolsync-agent"
-version = "2.1.0-dev.11"
+version = "2.1.0-dev.12"
 dependencies = [
  "anyhow",
  "base64",
@@ -1707,7 +1707,7 @@ dependencies = [
 
 [[package]]
 name = "poolsync-core"
-version = "2.1.0-dev.11"
+version = "2.1.0-dev.12"
 dependencies = [
  "anyhow",
  "base64",
@@ -1720,7 +1720,7 @@ dependencies = [
 
 [[package]]
 name = "poolsync-hub"
-version = "2.1.0-dev.11"
+version = "2.1.0-dev.12"
 dependencies = [
  "anyhow",
  "axum",

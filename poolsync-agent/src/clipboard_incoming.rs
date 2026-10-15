@@ -189,6 +189,7 @@ pub async fn apply_incoming_clipboard(
     let preview = clip_preview_mime(mime, data);
     state.record_clip_received(preview.clone());
     clip_cache::store_received(hash, mime, data, &preview, source_node);
+    state.notify_tray_history_changed();
 
     let via = if from_hub { "hub" } else { "peer" };
     info!(
@@ -225,5 +226,69 @@ mod tests {
             applied_text_hash(&written),
             poolsync_core::hash_text(wire_html)
         );
+    }
+
+    #[tokio::test]
+    #[ignore = "requires an isolated X11 display and POOLSYNC_HISTORY_TEST_HOME"]
+    async fn received_history_refreshes_the_tray_without_restart() {
+        let home = std::env::var("POOLSYNC_HISTORY_TEST_HOME").expect("isolated test home");
+        assert_eq!(std::env::var("HOME").unwrap(), home);
+        let config = toml::from_str(
+            r#"
+node = "receiver-test"
+hubless = true
+hub_url = "ws://127.0.0.1:1/ws"
+token = "isolated-test-token"
+mode = "clipboard_only"
+pause_clipboard_when_rdp = false
+[screen]
+width = 100
+height = 100
+"#,
+        )
+        .unwrap();
+        let state = AgentState::new(config, std::path::PathBuf::from(home).join("agent.toml"));
+        let text = format!("PoolSync history regression {}", uuid::Uuid::new_v4());
+        let hash = poolsync_core::hash_text(&text);
+        let revision = state.tray_history_revision();
+        apply_incoming_clipboard(
+            &state,
+            &hash,
+            &text,
+            "text/plain",
+            "sender-test",
+            false,
+            "sender-test",
+            2,
+        )
+        .await
+        .unwrap();
+        assert_eq!(crate::clip_cache::list_recent(1)[0].hash, hash);
+        let native = std::process::Command::new("xclip")
+            .args(["-selection", "clipboard", "-t", "UTF8_STRING", "-o"])
+            .output()
+            .unwrap();
+        assert!(native.status.success());
+        assert_eq!(native.stdout, text.as_bytes());
+        assert!(
+            state.tray_history_revision() > revision,
+            "received copy was cached and pasted but the tray was never invalidated"
+        );
+        let fresh_revision = state.tray_history_revision();
+        let old = "obsolete copy must not replace the latest item";
+        apply_incoming_clipboard(
+            &state,
+            &poolsync_core::hash_text(old),
+            old,
+            "text/plain",
+            "sender-test",
+            false,
+            "sender-test",
+            1,
+        )
+        .await
+        .unwrap();
+        assert_eq!(crate::clip_cache::list_recent(1)[0].hash, hash);
+        assert_eq!(state.tray_history_revision(), fresh_revision);
     }
 }
